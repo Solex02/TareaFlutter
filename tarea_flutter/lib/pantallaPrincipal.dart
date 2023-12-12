@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   String image = "blanco.jpg";
   List numlist = [];
   var secuenciaNum = [];
-  var images_list = [
+  var imagesList = [
     "gatos.png",
     "perro.jpg",
     "conejo.jpg",
@@ -31,11 +31,12 @@ class _HomePageState extends State<HomePage> {
       await Future.delayed(duration);
       _nextImage(value);
     }
+    image = "blanco.jpg";
   }
 
   void _nextImage(int value) {
     setState(() {
-      image = images_list[value];
+      image = imagesList[value];
     });
   }
 
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Image from assets"),
+        title: const Text("Juego de memoria"),
       ),
       body: Center(
           // Enabling the Image Frame
@@ -57,7 +58,7 @@ class _HomePageState extends State<HomePage> {
 
               // Uploading the Image from Assets
               child: Image.asset(
-                'assets/images/' + image,
+                'assets/images/$image',
                 fit: BoxFit.cover,
               ))),
 
