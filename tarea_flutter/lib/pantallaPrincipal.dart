@@ -1,19 +1,9 @@
-import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -21,50 +11,58 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
-  var images_list = ["gatos.png", "perro.jpg"];
+  String image = "blanco.jpg";
+  List numlist = [];
+  var secuenciaNum = [];
+  var images_list = [
+    "gatos.png",
+    "perro.jpg",
+    "conejo.jpg",
+    "sapo.jpg",
+    "pato.jpg",
+    "mapache.jpg"
+  ];
   var duration = const Duration(seconds: 2);
-  void _nextImage() {
-    setState(() {
 
-      for (var i = 0; i < images_list.length; i++) {
-        _counter = i;
-        sleep(duration);
-        print(_counter);
-      }
-      _counter = 0;
-
-      
-    });
+  void prueba() async {
+    int rnd = Random().nextInt(5);
+    numlist.add(rnd);
+    for (final value in numlist) {
+      await Future.delayed(duration);
+      _nextImage(value);
+    }
   }
 
-  
+  void _nextImage(int value) {
+    setState(() {
+      image = images_list[value];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
-    
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Image from assets"),
-        ),
-        body: Center(
-            // Enabling the Image Frame
-            child: Container(
-                color: Colors.indigo, // To see the difference between the image's original size and the frame
-                height: 250,
-                width: 250,
+      appBar: AppBar(
+        title: Text("Image from assets"),
+      ),
+      body: Center(
+          // Enabling the Image Frame
+          child: Container(
+              color: Colors
+                  .indigo, // To see the difference between the image's original size and the frame
+              height: 250,
+              width: 250,
 
-                // Uploading the Image from Assets
-                child: Image.asset(
-                  'assets/images/'+images_list[_counter],
+              // Uploading the Image from Assets
+              child: Image.asset(
+                'assets/images/' + image,
+                fit: BoxFit.cover,
+              ))),
 
-                  // Resizing the Image to the Frame Size
-                  fit: BoxFit.cover,
-                ))),
-        
-          floatingActionButton: FloatingActionButton(
-        onPressed: _nextImage,
+      floatingActionButton: FloatingActionButton(
+        onPressed: prueba,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
