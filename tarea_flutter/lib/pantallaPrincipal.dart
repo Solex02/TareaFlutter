@@ -45,22 +45,36 @@ class _HomePageState extends State<HomePage> {
     // This method is rerun every time setState is called, for instance as done
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Juego de memoria"),
       ),
-      body: Center(
-          // Enabling the Image Frame
-          child: Container(
-              color: Colors
-                  .indigo, // To see the difference between the image's original size and the frame
-              height: 250,
-              width: 250,
-
-              // Uploading the Image from Assets
-              child: Image.asset(
-                'assets/images/$image',
-                fit: BoxFit.cover,
-              ))),
+      body: Card(
+        // Enabling the Image Frame
+        child: Container(
+            color: Colors
+                .indigo, // To see the difference between the image's original size and the frame
+            height: 250,
+            width: 250,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Image.asset(
+                  'assets/images/$image',
+                  fit: BoxFit.cover,
+                ),
+                Container(
+                  child: Row(
+                    children: [
+                      TextButton(
+                          onPressed: prueba,
+                          child: Image.asset('assets/images/$imagesList[0]')),
+                    ],
+                  ),
+                )
+              ],
+            )),
+      ),
 
       floatingActionButton: FloatingActionButton(
         onPressed: prueba,
