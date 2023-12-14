@@ -50,7 +50,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
 
-<<<<<<< HEAD
     return MaterialApp(
       title: "Demo",
       home: Scaffold(
@@ -92,45 +91,6 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-=======
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: const Text("Juego de memoria"),
-      ),
-      body: Card(
-        // Enabling the Image Frame
-        child: Container(
-            color: Colors
-                .indigo, // To see the difference between the image's original size and the frame
-            height: 250,
-            width: 250,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
-                  'assets/images/$image',
-                  fit: BoxFit.cover,
-                ),
-                Container(
-                  child: Row(
-                    children: [
-                      TextButton(
-                          onPressed: prueba,
-                          child: Image.asset('assets/images/$imagesList[0]')),
-                    ],
-                  ),
-                )
-              ],
-            )),
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        onPressed: prueba,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
->>>>>>> 4193679beadac5a9bf87d30ce4e36283c397aab4
     );
   }
 }
