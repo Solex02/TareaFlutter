@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tarea_flutter/pantallaPrincipal.dart';
+import 'package:tarea_flutter/pantallaInicio.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,10 +14,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme:
+            ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 235, 81, 60)),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Flutter Demo Home Page'),
+      home: const StartPage(title: 'Flutter Demo Home Page'),
     );
   }
 }

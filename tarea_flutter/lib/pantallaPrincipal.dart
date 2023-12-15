@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String image = "blanco.jpg";
   List numlist = [];
+  int _puntuacion = 0;
   var secuenciaNum = [];
   var imagesList = [
     "gatos.png",
@@ -41,21 +42,25 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void prueba(String word){
+  void checkImage(String word) {
     print(word);
+  }
 
+  @override
+  void initState() {
+    super.initState();
+    imageCicle(); //call it over here
   }
 
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
-
     return MaterialApp(
       title: "Demo",
       home: Scaffold(
         appBar: AppBar(
-          centerTitle: true,
-          title: const Text("Juego Memoria"),
+          title: Text("Puntuacion: $_puntuacion"),
+          backgroundColor: Color.fromARGB(255, 255, 90, 82),
         ),
         body: Center(
           child: Column(
@@ -74,16 +79,29 @@ class _HomePageState extends State<HomePage> {
                 child: GridView.count(
                   shrinkWrap: true,
                   crossAxisCount: 3,
-                  childAspectRatio:2.0, // Ajusta la relación de aspecto de los botones
+                  childAspectRatio:
+                      2.0, // Ajusta la relación de aspecto de los botones
                   mainAxisSpacing: 5.0,
                   crossAxisSpacing: 4.0,
-                  children:[
-                    CustomButton(icon: "assets/images/${imagesList[0]}", onPressed: () => prueba(imagesList[0])),
-                    CustomButton(icon: "assets/images/${imagesList[1]}", onPressed: () => prueba(imagesList[1])),
-                    CustomButton(icon: "assets/images/${imagesList[2]}", onPressed: () => prueba(imagesList[2])),
-                    CustomButton(icon: "assets/images/${imagesList[3]}", onPressed: () => prueba(imagesList[3])),
-                    CustomButton(icon: "assets/images/${imagesList[4]}", onPressed: () => prueba(imagesList[4])),
-                    CustomButton(icon: "assets/images/${imagesList[5]}", onPressed: () => prueba(imagesList[5])),
+                  children: [
+                    CustomButton(
+                        icon: "assets/images/${imagesList[0]}",
+                        onPressed: () => checkImage(imagesList[0])),
+                    CustomButton(
+                        icon: "assets/images/${imagesList[1]}",
+                        onPressed: () => checkImage(imagesList[1])),
+                    CustomButton(
+                        icon: "assets/images/${imagesList[2]}",
+                        onPressed: () => checkImage(imagesList[2])),
+                    CustomButton(
+                        icon: "assets/images/${imagesList[3]}",
+                        onPressed: () => checkImage(imagesList[3])),
+                    CustomButton(
+                        icon: "assets/images/${imagesList[4]}",
+                        onPressed: () => checkImage(imagesList[4])),
+                    CustomButton(
+                        icon: "assets/images/${imagesList[5]}",
+                        onPressed: () => checkImage(imagesList[5])),
                   ],
                 ),
               )
