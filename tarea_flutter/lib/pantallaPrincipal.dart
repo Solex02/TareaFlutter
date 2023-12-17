@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:tarea_flutter/CustomButton.dart';
+import 'package:tarea_flutter/pantallaPuntuaciones.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -15,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   String image = "blanco.jpg";
   List numlist = [];
   int _puntuacion = 0;
+  int contador = 0;
   var secuenciaNum = [];
   var imagesList = [
     "gatos.png",
@@ -26,14 +28,28 @@ class _HomePageState extends State<HomePage> {
   ];
   var duration = const Duration(seconds: 2);
 
+  void gotoPantallaPuntuaciones() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) =>  ScorePage(
+                title: '', score: _puntuacion
+              )),
+    );
+  }
+
+
   void imageCicle() async {
+    print("imagecylce");
+
     int rnd = Random().nextInt(5);
     numlist.add(rnd);
     for (final value in numlist) {
-      await Future.delayed(duration);
       _nextImage(value);
+      await Future.delayed(duration);
     }
     image = "blanco.jpg";
+    print(numlist);
   }
 
   void _nextImage(int value) {
@@ -43,18 +59,35 @@ class _HomePageState extends State<HomePage> {
   }
 
   void checkImage(String word) {
-    print(word);
+
+      if (word == imagesList[numlist[contador]]) {
+          contador++;
+          print("Correcto");
+          _puntuacion ++;
+        if(contador >= numlist.length){
+          contador = 0;
+          imageCicle();
+        }
+      
+    } 
+    else {
+      print("Incorrecto");
+      gotoPantallaPuntuaciones();
+
+    }
+
+    
+    
+    
   }
 
-  @override
-  void initState() {
-    super.initState();
-    imageCicle(); //call it over here
-  }
+
+  
 
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
+
     return MaterialApp(
       title: "Demo",
       home: Scaffold(
@@ -67,7 +100,7 @@ class _HomePageState extends State<HomePage> {
             children: [
               Center(
                 child: Image.asset(
-                  'assets/images/gatos.png', // Reemplaza con la ruta de tu imagen
+                  'assets/images/$image', // Reemplaza con la ruta de tu imagen
                   width:
                       400, // Ajusta el tamaño de la imagen según lo necesario
                   height: 400,
@@ -104,7 +137,12 @@ class _HomePageState extends State<HomePage> {
                         onPressed: () => checkImage(imagesList[5])),
                   ],
                 ),
-              )
+              ),
+              Center(
+                  child: ElevatedButton(
+                child: Text("Start"),
+                onPressed: imageCicle,
+              )),
             ],
           ),
         ),
