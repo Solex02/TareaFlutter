@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-
 Future<void> main() async {
-  print("main");
   await Supabase.initialize(
     url: 'https://cazcggegzdrzgqqfuete.supabase.co',
-    anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhemNnZ2VnemRyemdxcWZ1ZXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5MjAyNDAsImV4cCI6MjAxODQ5NjI0MH0.wXim6D3gmVIPVaBWst-XMlN8jfYrauzqbteXuqFJQ9A',
+    anonKey:
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNhemNnZ2VnemRyemdxcWZ1ZXRlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDI5MjAyNDAsImV4cCI6MjAxODQ5NjI0MH0.wXim6D3gmVIPVaBWst-XMlN8jfYrauzqbteXuqFJQ9A',
   );
 
-  runApp(ScorePage(title: '', score: 0,));
-
+  runApp(ScorePage(
+    title: '',
+    score: 0,
+  ));
 }
 
 // Get a reference your Supabase client
@@ -23,34 +24,42 @@ class ScorePage extends StatefulWidget {
 
   @override
   State<ScorePage> createState() => _ScorePageState();
-  
 }
 
-final products = ["hola", "Hola"];
-
+var puntuaciones = [];
 
 class _ScorePageState extends State<ScorePage> {
   final testMap = {"Gonzalo": 1000, "Pedro": 200};
   final TextEditingController nameController = TextEditingController();
-
+  var data;
   get score => null;
 
   @override
   void initState() {
     super.initState();
+
     getpuntuaciones();
   }
 
   // Resto del código...
 
-  void getpuntuaciones() async {
-    print("get");
-    //final response = await supabase.from('puntuaciones').select('*');
-    print('Puntuaciones obtenidas: 2');
-     
+  Future<void> getpuntuaciones() async {
+    data = await supabase.from('puntuaciones').select('nombre, puntos');
+    print(data);
+
+    setState(() {
+      puntuaciones =
+          data; // Actualizar el estado con las puntuaciones obtenidas
+    });
   }
 
+  Future<void> savepuntuaciones() async {
+    final response = await supabase.from('puntuaciones').upsert([
+      {'nombre': "prueba", 'puntos': 2}
+    ]);
 
+    print(response);
+  }
 
   void guardar() {
     print("guardar");
@@ -81,46 +90,100 @@ class _ScorePageState extends State<ScorePage> {
               SizedBox(
                 height: 200,
                 child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: products.length,
+                  scrollDirection: Axis.vertical,
+                  itemCount: puntuaciones.length,
                   itemBuilder: (BuildContext ctxt, int index) {
-                    return new Text("list");
+                    // Construir un widget con los datos de 'data'
+                    return Center(
+                      child: Text(
+                        '${data[index]['nombre']}: ${data[index]['puntos']}',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                    );
                   },
                 ),
               ),
               ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        content: Column(
-                          children: [
-                            TextField(
-                              decoration: const InputDecoration(
-                                border: OutlineInputBorder(),
-                                hintText: 'Nombre',
-                              ),
-                              controller: nameController,
-                            ),
-                            Text("Puntuacion Final: $score")
-                          ],
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () => guardar,
-                            child: Text("Guardar"),
-                          ),
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text("Cancelar"),
-                          ),
-                        ],
+          onPressed: () => _dialogBuilder(context),
+            /*howDialog(
+              context: context,
+              builder: (context) => AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextField(
+                      decoration: const InputDecoration(
+                        border: OutlineInputBorder(),
+                        hintText: 'Nombre',
                       ),
-                    );
-                  },
-                  child: Text("Guardar"))
+                      // Aquí debes tener un TextEditingController definido
+                      // Ejemplo: controller: nameController,
+                    ),
+                    // Asegúrate de tener definida la variable `score`
+                    Text("Puntuación Final: $score"),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      // Lógica para guardar los datos
+                      // Ejemplo: guardar(nameController.text);
+                      Navigator.pop(context);
+                    },
+                    child: Text("Guardar"),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text("Cancelar"),
+                  ),
+                ],
+              ),
+            );*/
+          child: Text("Guardar"),
+        ),
+
             ],
           )),
     );
   }
+
+  Future<void> _dialogBuilder(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Basic dialog title'),
+          content: const Text(
+            'A dialog is a type of modal window that\n'
+            'appears in front of app content to\n'
+            'provide critical information, or prompt\n'
+            'for a decision to be made.',
+          ),
+          actions: <Widget>[
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Disable'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              style: TextButton.styleFrom(
+                textStyle: Theme.of(context).textTheme.labelLarge,
+              ),
+              child: const Text('Enable'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+
 }
+
