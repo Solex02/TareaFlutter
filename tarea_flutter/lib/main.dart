@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tarea_flutter/pantallaInicio.dart';
+import 'package:tarea_flutter/pantallaPuntuaciones.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,10 @@ class MyApp extends StatelessWidget {
             ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 235, 81, 60)),
         useMaterial3: true,
       ),
-      home: const StartPage(title: 'Flutter Demo Home Page'),
+      home: const ScorePage(
+        title: 'Flutter Demo Home Page',
+        score: 2,
+      ),
     );
   }
 }

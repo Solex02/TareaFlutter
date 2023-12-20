@@ -26,7 +26,8 @@ class _StartPageState extends State<StartPage> {
       context,
       MaterialPageRoute(
           builder: (context) => const ScorePage(
-                title: '', score: 0,
+                title: '',
+                score: 0,
               )),
     );
   }
@@ -46,7 +47,7 @@ class _StartPageState extends State<StartPage> {
               ElevatedButton(
                 onPressed: gotoPantallaPrincipal,
                 child: const Text('Jugar'),
-                              ),
+              ),
               ElevatedButton(
                 onPressed: gotoPantallaPuntuaciones,
                 child: const Text('Puntuaciones'),
